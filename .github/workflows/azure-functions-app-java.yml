@@ -30,6 +30,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           cache: 'maven'
+          distribution: 'oracle'
 
       - name: Build with Maven
         run: mvn clean install
