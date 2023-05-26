@@ -2,6 +2,8 @@ package de.felixbublitz.casestudy.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 import org.json.JSONObject;
 
@@ -14,13 +16,13 @@ public class Database {
 		BufferedReader reader = new BufferedReader(
 				new InputStreamReader(getClass().getClassLoader().getResourceAsStream(fileName)));
 
-		Stack<String[]> rawData = new Stack<String[]>();
+		Queue<String[]> rawData = new LinkedList<String[]>();
 		String line;
 
 		reader.readLine(); // skip title line in csv
 		while ((line = reader.readLine()) != null) {
 			String[] values = line.split(";");
-			rawData.push(values);
+			rawData.add(values);
 		}
 
 		rootNode = new DatabaseNode(rawData, 0);
