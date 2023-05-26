@@ -1,5 +1,7 @@
 package de.felixbublitz.casestudy.service;
 
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +16,30 @@ public class AutoCompleteController {
 		this.db = db;
 	}
 
-	@RequestMapping(value = "/api/v1/auto-complete/{term}", produces = { "application/json" })
-	public @ResponseBody String getAttr(@PathVariable("term") String term) {
+	@RequestMapping(value = "/api/v1/auto-complete/{term:[A-Za-z]{3,}}", produces = { "application/json" })
+	public @ResponseBody String returnSearchResult(@PathVariable("term") String term) {
 		return db.getSearchResult(term).toString();
+	}
+	
+	
+	
+	@RequestMapping(value = "/api/v1/auto-complete/{term:[A-Za-z]{0,2}}", produces = { "application/json" })
+	  public @ResponseBody ResponseEntity<String> handleShortTermError() {	
+	      return ServiceError.getResponseEntity(ApplicationData.ERROR_TOO_SHORT);
+	}
+	
+	@RequestMapping(value = "/api/v1/auto-complete/{term:.*[^A-Za-z0-9].*}", produces = { "application/json" })
+	  public @ResponseBody ResponseEntity<String> handlInvalidCharacterError() {	
+	      return ServiceError.getResponseEntity(ApplicationData.ERROR_INVALID_CHAR);
 	}
 
 	@RequestMapping("/api/v1/auto-complete/")
 	public @ResponseBody String showDefaultMessage() {
 		return "service running";
 	}
+	
+	  @RequestMapping(value = "/api/v1/auto-complete/{term:.*\\d.*}",  produces = { "application/json" })
+	  public @ResponseBody ResponseEntity<String> handleError() {	
+	      return ServiceError.getResponseEntity(ApplicationData.ERROR_NUMERIC);
+	    }
 }

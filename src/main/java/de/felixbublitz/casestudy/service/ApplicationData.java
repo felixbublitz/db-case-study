@@ -9,4 +9,13 @@ public class ApplicationData {
 	public final static int CSV_BREITE = 5;
 	public final static String JSON_STATION_SIZE = "number_of_stations_found";
 	public final static String JSON_STATION_LIST = "station_list";
+	public final static String JSON_ERROR_CODE = "error_code";
+	public final static String JSON_ERROR_DESC = "error_description";
+	
+	public final static ServiceError ERROR_TOO_SHORT = new ServiceError(200, 1, "Length of search term must be at least 3");
+	public final static ServiceError ERROR_NUMERIC = new ServiceError(200, 2, "Numeric characters are not allowed");
+	public final static ServiceError ERROR_INVALID_CHAR = new ServiceError(200, 3, "Invalid character");
+
+
+
 }
