@@ -32,7 +32,7 @@ public class AutoCompleteController {
 	/**
 	 * Process request
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:[A-Za-z ]{3,}}", produces = {
+	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:[A-Za-zÀ-ž ]{3,}}", produces = {
 			"application/json" })
 	public @ResponseBody ResponseEntity<String> returnSearchResult(@PathVariable("term") String term) {
 		if(!db.isLoaded()) return ServiceError.getResponseEntity(ApplicationData.ERROR_INTERNAL_ERROR);
@@ -42,7 +42,7 @@ public class AutoCompleteController {
 	/**
 	 * Search term too short
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:[A-Za-z ]{0,2}}", produces = { "application/json" })
+	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:[A-Za-zÀ-ž ]{0,2}}", produces = { "application/json" })
 	public @ResponseBody ResponseEntity<String> handleShortTermError() {
 		return ServiceError.getResponseEntity(ApplicationData.ERROR_TOO_SHORT);
 	}
@@ -50,7 +50,7 @@ public class AutoCompleteController {
 	/**
 	 * Invalid numeric characters
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:[A-Za-z0-9 ]*\\d[A-Za-z0-9 ]*}", produces = { "application/json" })
+	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:[A-Za-zÀ-ž0-9 ]*\\d[A-Za-z0-9 ]*}", produces = { "application/json" })
 	public @ResponseBody ResponseEntity<String> handleError() {
 		return ServiceError.getResponseEntity(ApplicationData.ERROR_NUMERIC);
 	}
@@ -58,7 +58,7 @@ public class AutoCompleteController {
 	/**
 	 * Invalid other characters
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:.*[^A-Za-z0-9 ].*}", produces = { "application/json" })
+	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:.*[^A-Za-zÀ-ž0-9 ].*}", produces = { "application/json" })
 	public @ResponseBody ResponseEntity<String> handlInvalidCharacterError() {
 		return ServiceError.getResponseEntity(ApplicationData.ERROR_INVALID_CHAR);
 	}
