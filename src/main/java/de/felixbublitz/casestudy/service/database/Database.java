@@ -15,10 +15,22 @@ import de.felixbublitz.casestudy.service.ApplicationData;
 
 public class Database {
 	DatabaseNode rootNode;
-	private double NS_TO_MS = 0.000000001;
+	private double NS_TO_MS = 0.000001;
+	private boolean loaded;
 
-	public Database(String fileName) throws Exception {
-		rootNode = new DatabaseNode(readCSVFile(fileName), 0);
+	public Database(String fileName)  {
+		Queue<String[]> rawData = new LinkedList<String[]>();
+		try {
+			rawData = readCSVFile(fileName);
+			loaded = true;
+		}catch(Exception e) {
+		}
+		rootNode = new DatabaseNode(rawData, 0);
+
+	}
+	
+	public boolean isLoaded() {
+		return loaded;
 	}
 
 	/**
@@ -38,7 +50,7 @@ public class Database {
 		out.put(ApplicationData.JSON_STATION_SIZE, result.getInt(ApplicationData.JSON_STATION_SIZE));
 
 		long deltaTime = System.nanoTime() - startTime;
-		out.put("time_taken", String.format("%f ms", deltaTime * NS_TO_MS).replace(',', '.'));
+		out.put("time_taken", String.format("%.2f ms", deltaTime * NS_TO_MS).replace(',', '.'));
 		return out;
 
 	}
@@ -57,7 +69,7 @@ public class Database {
 
 		reader.readLine(); // skip title line in csv
 		while ((line = reader.readLine()) != null) {
-			String[] values = line.split(";");
+			String[] values = line.split(ApplicationData.CSV_DELIMITER);
 			out.add(values);
 		}
 		return out;

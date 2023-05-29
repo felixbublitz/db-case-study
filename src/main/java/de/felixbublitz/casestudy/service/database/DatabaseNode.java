@@ -21,6 +21,8 @@ public class DatabaseNode {
 	final List<Character> UMLAUTS = Arrays.asList('Ä', 'Ö', 'Ü');
 	private HashMap<Character, DatabaseNode> children = new HashMap<>();
 	private List<String[]> containingItems = new ArrayList<String[]>();
+	private JSONObject containingItemsString;
+
 
 	public DatabaseNode() {
 	}
@@ -33,6 +35,7 @@ public class DatabaseNode {
 	public DatabaseNode(Queue<String[]> rawData, int charPosition) {
 
 		containingItems = new ArrayList<String[]>(rawData);
+		containingItemsString = formatItems(containingItems);
 
 		// processes all train stations without umlauts
 		Queue<String[]> itemsWithUmlauts = processList(rawData, charPosition, UMLAUTS);
@@ -106,7 +109,8 @@ public class DatabaseNode {
 	 */
 	public JSONObject getSearchResult(String term) {
 		if (term.length() == 0)
-			return formatItems(containingItems);
+			return containingItemsString;
+			//return formatItems(containingItems); //slower but more flexible
 
 		DatabaseNode child = children.get(Character.toUpperCase(term.charAt(0)));
 		if (child == null)

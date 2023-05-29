@@ -1,6 +1,9 @@
 package de.felixbublitz.casestudy.service;
 
 public class ApplicationData {
+	public final static String FILE_TRAINSTATION_LIST = "D_Bahnhof_2016_01_alle.csv";
+	public final static String CSV_DELIMITER = ";";
+
 	public final static int CSV_EVA = 0;
 	public final static int CSV_DS = 1;
 	public final static int CSV_NAME = 2;

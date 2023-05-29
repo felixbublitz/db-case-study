@@ -35,7 +35,7 @@ public class AutoCompleteController {
 	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/auto-complete/{term:[A-Za-z ]{3,}}", produces = {
 			"application/json" })
 	public @ResponseBody ResponseEntity<String> returnSearchResult(@PathVariable("term") String term) {
-		if(db == null) return ServiceError.getResponseEntity(ApplicationData.ERROR_INTERNAL_ERROR);
+		if(!db.isLoaded()) return ServiceError.getResponseEntity(ApplicationData.ERROR_INTERNAL_ERROR);
 		return new ResponseEntity<String>(db.getSearchResult(term).toString(), HttpStatusCode.valueOf(200));
 	}
 
