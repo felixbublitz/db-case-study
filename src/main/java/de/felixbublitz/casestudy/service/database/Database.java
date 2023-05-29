@@ -50,7 +50,7 @@ public class Database {
 		out.put(ApplicationData.JSON_STATION_SIZE, result.getInt(ApplicationData.JSON_STATION_SIZE));
 
 		long deltaTime = System.nanoTime() - startTime;
-		out.put("time_taken", String.format("%.2f ms", deltaTime * NS_TO_MS).replace(',', '.'));
+		out.put("time_taken", String.format("%.3f ms", deltaTime * NS_TO_MS).replace(',', '.'));
 		return out;
 
 	}
