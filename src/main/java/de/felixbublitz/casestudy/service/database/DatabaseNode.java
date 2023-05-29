@@ -21,8 +21,9 @@ public class DatabaseNode {
 	final List<Character> UMLAUTS = Arrays.asList('Ä', 'Ö', 'Ü');
 	private HashMap<Character, DatabaseNode> children = new HashMap<>();
 	private List<String[]> containingItems = new ArrayList<String[]>();
-	private JSONObject containingItemsString;
-
+	
+	//since time is more critical than flexibility, the train station list is pre-calculated for each node.
+	private JSONObject containingItemsString; 
 
 	public DatabaseNode() {
 	}
