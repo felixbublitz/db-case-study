@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class CustomErrorController implements ErrorController  {
 
-    @RequestMapping("/error")
+    @RequestMapping(value = "/error",  produces = { "application/json" }) 
     public @ResponseBody ResponseEntity<String>  handleError(HttpServletRequest request) {
     	
     	 Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
