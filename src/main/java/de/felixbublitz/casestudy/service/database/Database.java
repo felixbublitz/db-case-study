@@ -9,24 +9,24 @@ import org.json.JSONObject;
 
 import de.felixbublitz.casestudy.service.ApplicationData;
 
-
 /**
  * Database allows to store train station data and efficiently search for them
  */
 
 public class Database {
-
 	DatabaseNode rootNode;
 	private double NS_TO_MS = 0.000000001;
 
 	public Database(String fileName) throws Exception {
 		rootNode = new DatabaseNode(readCSVFile(fileName), 0);
 	}
-	
+
 	/**
 	 * Search for all stations beginning with the search term
+	 * 
 	 * @param term Search term
-	 * @return JSONObject containing all stations, number of stations and time taken for the search.
+	 * @return JSONObject containing all stations, number of stations and time taken
+	 *         for the search.
 	 */
 	public JSONObject getSearchResult(String term) {
 		long startTime = System.nanoTime();
@@ -42,14 +42,16 @@ public class Database {
 		return out;
 
 	}
-	
+
 	/**
 	 * Read CSV File as Queue
+	 * 
 	 * @param fileName Name of csv file in ressources directory
 	 * @return Read lines represented as Queue
 	 */
 	private Queue<String[]> readCSVFile(String fileName) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(fileName)));
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(getClass().getClassLoader().getResourceAsStream(fileName)));
 		Queue<String[]> out = new LinkedList<String[]>();
 		String line;
 
@@ -60,6 +62,4 @@ public class Database {
 		}
 		return out;
 	}
-
-
 }

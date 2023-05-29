@@ -4,23 +4,22 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
-
 /*
- * Represent a Service Error
+ * Represents a Service Error
  */
 
 public class ServiceError {
-	
 	public int httpCode;
 	public int code;
 	public String description;
+	private static int initErrors;
 	
-	public ServiceError(int hc, int c, String d) {
+	public ServiceError(int hc, String d) {
 		httpCode = hc;
-		code = c;
+		code = initErrors++;
 		description = d;
 	}
-	
+
 	/*
 	 * Format a ServiceError as ResponseEntity
 	 */
@@ -28,8 +27,6 @@ public class ServiceError {
 		JSONObject message = new JSONObject();
 		message.put(ApplicationData.JSON_ERROR_CODE, error.code);
 		message.put(ApplicationData.JSON_ERROR_DESC, error.description);
-		
 		return new ResponseEntity<String>(message.toString(), HttpStatusCode.valueOf(error.httpCode));
 	}
-
 }
