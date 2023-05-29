@@ -16,8 +16,4 @@ public class ApplicationData {
 	public final static ServiceError ERROR_NUMERIC = new ServiceError(400, 2, "Numeric characters are not allowed");
 	public final static ServiceError ERROR_INVALID_CHAR = new ServiceError(400, 3, "Invalid character");
 	public final static ServiceError ERROR_METHOD_NOT_ALLOWED = new ServiceError(405, 4, "Method not allowed");
-
-
-
-
 }

@@ -1,4 +1,4 @@
-package de.felixbublitz.casestudy.service;
+package de.felixbublitz.casestudy.service.database;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,38 +8,56 @@ import java.util.List;
 import java.util.Queue;
 import org.json.JSONObject;
 
+import de.felixbublitz.casestudy.service.ApplicationData;
+
+/*
+ * Represents a tree node.
+ * All train stations that are on or beneeth the node are represented in the containingItems List
+ * 	 * From the given node, all stations are grouped by the next character and stored in the HashMap.
+
+ */
+
 public class DatabaseNode {
 
+	final List<Character> UMLAUTS = Arrays.asList('Ä', 'Ö', 'Ü');
 	private HashMap<Character, DatabaseNode> children = new HashMap<>();
 	private List<String[]> containingItems = new ArrayList<String[]>();
-	final List<Character> UMLAUTS = Arrays.asList('Ä', 'Ö', 'Ü');
 
 
 	public DatabaseNode() {}
-
+	
+	/*
+	 * @param rawData CSV Data stored as Queue
+	 * @param charPosition Represent which of the n-letters is regarded by the node
+	 */
 	public DatabaseNode(Queue<String[]> rawData, int charPosition) {
 
 		containingItems = new ArrayList<String[]>(rawData);
 		
-		//proccess all train stations without umlauts
+		//processes all train stations without umlauts
 		Queue<String[]> itemsWithUmlauts = processList(rawData, charPosition, UMLAUTS);
 		
-		//proccess all train stations with umlauts
+		//processes all train stations with umlauts
 		processList(itemsWithUmlauts, charPosition);
 		
 	}
 	
-	
+
 	private Queue<String[]> processList(Queue<String[]> list, int charPosition){
 		return processList(list, charPosition, new ArrayList<Character>());
 	}
 	
+	/*
+	 * Processes the CSV Data and creates a child node for each coming letter after the current
+	 * @param processList CSV Data stored as Queue
+	 * @param charPosition Represent which of the n-letters is regarded by the node
+	 * @param exclude List of chars that should not be regarded
+	 * @return List of items that were skipped
+	 */
 	private Queue<String[]> processList(Queue<String[]> list, int charPosition, List<Character> exclude){
 		char groupChar = '\0';
 		Queue<String[]> group = new LinkedList<String[]>();
 		Queue<String[]> skippedItems = new LinkedList<String[]>();
-
-		
 
 		while (list.size() != 0) {
 
@@ -75,24 +93,25 @@ public class DatabaseNode {
 	}
 
 
-
-	public boolean isUmlaut(char c) {
-		return (c == 'Ä' || c == 'Ö' || c == 'Ü') ? true : false;
-	}
-
-	public DatabaseNode getChild(char c) {
-		return children.getOrDefault(c, new DatabaseNode());
-	}
-
+	/*
+	 * Returns all search results for the given search term
+	 * @param term Search term
+	 * @return Search result
+	 */
 	public JSONObject getSearchResult(String term) {
-		if (term.length() == 0) return getJSONResult(containingItems);
+		if (term.length() == 0) return formatItems(containingItems);
 		
 		DatabaseNode child = children.get(Character.toUpperCase(term.charAt(0)));
-		if(child == null) return getJSONResult(new ArrayList<String[]>());
+		if(child == null) return formatItems(new ArrayList<String[]>());
 		return child.getSearchResult(term.substring(1));
 	}
 	
-	private JSONObject getJSONResult(List<String[]> items) {
+	
+	/*
+	 * Creates a formated result from the given train station items
+	 * @param items Trains stations
+	 */
+	private JSONObject formatItems(List<String[]> items) {
 		JSONObject out = new JSONObject();
 		out.put(ApplicationData.JSON_STATION_SIZE, items.size());
 		
@@ -104,9 +123,6 @@ public class DatabaseNode {
 
 		out.put(ApplicationData.JSON_STATION_LIST, formattedStations);
 		return out;
-		
 	}
-
-	
 
 }
