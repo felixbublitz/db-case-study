@@ -17,5 +17,7 @@ public class ApplicationData {
 	public final static ServiceError ERROR_INVALID_CHAR = new ServiceError(400, "Invalid character");
 	public final static ServiceError ERROR_METHOD_NOT_ALLOWED = new ServiceError(405, "Method not allowed");
 	public final static ServiceError ERROR_INTERNAL_ERROR = new ServiceError(500, "Internal error");
+	public final static ServiceError ERROR_NOT_FOUND = new ServiceError(404, "Ressource not found");
+
 
 }

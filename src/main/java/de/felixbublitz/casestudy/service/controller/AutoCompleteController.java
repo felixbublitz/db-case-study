@@ -70,4 +70,5 @@ public class AutoCompleteController {
 	public @ResponseBody String showDefaultMessage() {
 		return "service running";
 	}
+	
 }
