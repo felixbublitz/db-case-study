@@ -12,9 +12,11 @@ public class ApplicationData {
 	public final static String JSON_ERROR_CODE = "error_code";
 	public final static String JSON_ERROR_DESC = "error_description";
 	
-	public final static ServiceError ERROR_TOO_SHORT = new ServiceError(200, 1, "Length of search term must be at least 3");
-	public final static ServiceError ERROR_NUMERIC = new ServiceError(200, 2, "Numeric characters are not allowed");
-	public final static ServiceError ERROR_INVALID_CHAR = new ServiceError(200, 3, "Invalid character");
+	public final static ServiceError ERROR_TOO_SHORT = new ServiceError(400, 1, "Length of search term must be at least 3");
+	public final static ServiceError ERROR_NUMERIC = new ServiceError(400, 2, "Numeric characters are not allowed");
+	public final static ServiceError ERROR_INVALID_CHAR = new ServiceError(400, 3, "Invalid character");
+	public final static ServiceError ERROR_METHOD_NOT_ALLOWED = new ServiceError(405, 4, "Method not allowed");
+
 
 
 
