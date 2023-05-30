@@ -72,18 +72,22 @@ public class DatabaseNode {
 
 			String currentStationName = currentItem[ApplicationData.CSV_NAME];
 
+			//current station name has no more characters / can be skipped
 			if (currentStationName.length() - 1 < charPosition)
 				continue;
 
+			//all chars are converted to upper case - data should not be case sensitive
 			char currentChar = Character.toUpperCase(currentStationName.charAt(charPosition));
 			if (groupChar == '\0')
 				groupChar = currentChar;
 
+			//skip excluded chars
 			if (exclude.contains(currentChar)) {
 				skippedItems.add(currentItem);
 				continue;
 			}
 
+			//create new node of the grouped stations beginning with groupChar character
 			if (currentChar != groupChar) {
 				children.put(groupChar, new DatabaseNode(group, charPosition + 1));
 				groupChar = currentChar;
@@ -93,6 +97,7 @@ public class DatabaseNode {
 
 		}
 
+		//create new node for the last group
 		if (group.size() > 0)
 			children.put(groupChar, new DatabaseNode(group, charPosition + 1));
 
