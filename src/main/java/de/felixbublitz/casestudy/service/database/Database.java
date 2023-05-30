@@ -11,6 +11,7 @@ import de.felixbublitz.casestudy.service.ApplicationData;
 
 /**
  * Database allows to store train station data and efficiently search for them
+ * 
  */
 
 public class Database {
@@ -42,27 +43,12 @@ public class Database {
 	 */
 	public JSONObject getSearchResult(String term) {
 		long startTime = System.nanoTime();
-		long startTime3 = System.nanoTime();
-
-		JSONObject out = new JSONObject();
-
-		long deltaTime3 = System.nanoTime() - startTime3;
-
-		out.put("time_taken3", deltaTime3 * NS_TO_MS + " ms");
-
-		long startTime2 = System.nanoTime();
 
 		JSONObject result = rootNode.getSearchResult(term);
-		long deltaTime2 = System.nanoTime() - startTime2;
-
-		out.put("time_taken2", deltaTime2 * NS_TO_MS + " ms");
-
-		out.put(ApplicationData.JSON_STATION_LIST, result.getJSONArray(ApplicationData.JSON_STATION_LIST));
-		out.put(ApplicationData.JSON_STATION_SIZE, result.getInt(ApplicationData.JSON_STATION_SIZE));
 
 		long deltaTime = System.nanoTime() - startTime;
-		out.put("time_taken", deltaTime * NS_TO_MS + " ms");
-		return out;
+		result.put("time_taken", (Math.ceil(deltaTime*NS_TO_MS *100.0)/100.0) + " ms");
+		return result;
 
 	}
 
