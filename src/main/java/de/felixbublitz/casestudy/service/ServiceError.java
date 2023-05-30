@@ -5,12 +5,12 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 /*
- * Represents a Service Error
+ * Represents a Web Service Error
  */
 
 public class ServiceError {
-	public int httpCode;
-	public int code;
+	public int httpCode; //http status code
+	public int code; //internal error code
 	public String description;
 	private static int initErrors;
 	

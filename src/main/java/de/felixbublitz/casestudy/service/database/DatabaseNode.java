@@ -12,9 +12,8 @@ import de.felixbublitz.casestudy.service.ApplicationData;
 
 /*
  * Represents a tree node.
- * All train stations that are on or beneeth the node are represented in the containingItems List
- * 	 * From the given node, all stations are grouped by the next character and stored in the HashMap.
-
+ * All train stations that are reachable by this node are stored in the containingItems List
+ * From the given node, all remaining stations are grouped by the next character and stored in the HashMap.
  */
 
 public class DatabaseNode {
@@ -23,7 +22,7 @@ public class DatabaseNode {
 	private List<String[]> containingItems = new ArrayList<String[]>();
 	
 	//since time is more critical than flexibility, the train station list is pre-calculated for each node.
-	private JSONObject containingItemsString; 
+	private JSONObject containingItemsEvaluated; 
 
 	public DatabaseNode() {
 	}
@@ -36,7 +35,7 @@ public class DatabaseNode {
 	public DatabaseNode(Queue<String[]> rawData, int charPosition) {
 
 		containingItems = new ArrayList<String[]>(rawData);
-		containingItemsString = formatItems(containingItems);
+		containingItemsEvaluated = formatItems(containingItems);
 
 		// processes all train stations without umlauts
 		Queue<String[]> itemsWithUmlauts = processList(rawData, charPosition, UMLAUTS);
@@ -110,7 +109,7 @@ public class DatabaseNode {
 	 */
 	public JSONObject getSearchResult(String term) {
 		if (term.length() == 0)
-			return containingItemsString;
+			return containingItemsEvaluated;
 			//return formatItems(containingItems); //slower but more flexible
 
 		DatabaseNode child = children.get(Character.toUpperCase(term.charAt(0)));

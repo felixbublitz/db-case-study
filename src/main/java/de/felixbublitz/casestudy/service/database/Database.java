@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import de.felixbublitz.casestudy.service.ApplicationData;
 
 /**
- * Database allows to store train station data and efficiently search for them
+ * Database allows to store train station data in a tree structure and efficiently search for them
  * 
  */
 
@@ -27,7 +27,6 @@ public class Database {
 		}catch(Exception e) {
 		}
 		rootNode = new DatabaseNode(rawData, 0);
-
 	}
 	
 	public boolean isLoaded() {
@@ -47,7 +46,7 @@ public class Database {
 		JSONObject result = rootNode.getSearchResult(term);
 
 		long deltaTime = System.nanoTime() - startTime;
-		result.put("time_taken", (Math.ceil(deltaTime*NS_TO_MS *100.0)/100.0) + " ms");
+		result.put(ApplicationData.JSON_TIME, (Math.ceil(deltaTime*NS_TO_MS *100.0)/100.0) + " ms");
 		return result;
 
 	}
@@ -56,7 +55,7 @@ public class Database {
 	 * Read CSV File as Queue
 	 * 
 	 * @param fileName Name of csv file in ressources directory
-	 * @return Read lines represented as Queue
+	 * @return Read lines represented as Queue (list of lines)
 	 */
 	private Queue<String[]> readCSVFile(String fileName) throws IOException {
 		BufferedReader reader = new BufferedReader(

@@ -12,6 +12,7 @@ public class ApplicationData {
 	public final static int CSV_BREITE = 5;
 	public final static String JSON_STATION_SIZE = "number_of_stations_found";
 	public final static String JSON_STATION_LIST = "station_list";
+	public final static String JSON_TIME = "time_taken";
 	public final static String JSON_ERROR_CODE = "error_code";
 	public final static String JSON_ERROR_DESC = "error_description";
 	
